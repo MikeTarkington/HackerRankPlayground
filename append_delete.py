@@ -2,17 +2,45 @@
 
 def appendAndDelete(s, t, k):
     build_str = list(s)
+    goal = list(t)
     # print(build_str)
-    print(len(t), len(s), t[:len(s) + 1], s)
-    if len(t) > len(s) and t[:len(s) + 1] == s:
+    # print(len(t), len(s), t[:len(s) + 1], s)
+    if len(t) > len(s):
         print("t is longer than s and s is equal to the first portion of t")
+        for i, char in enumerate(reversed(t), start=1):
+            print(t[:-i], ''.join(build_str[:-i]))
+            if ''.join(build_str[:-i]) != t[:-i]:
+                build_str.pop()
+                k = k - 1
+                print(k, s)
+            elif s == t:
+                return "Yes"
+                # print(k)
 
-    for i, char in enumerate(reversed(t), start=1):
-        print(t[:-i], ''.join(build_str[:-i]))
-        if ''.join(build_str[:-i]) != t[:-i]:
-            print(f"delete {char}")
+            # if k <= 0 and build_str != t:
+            #     return "No"
+            # elif k >= 0 and build_str == t:
+            #     return "Yes"
+    
+    elif len(s) > len(t):
+        print("s length is greater than t length")
+        if len(s) - len(t) > k:
+            return "No"
         else:
-            print("we're done deleting")
+            for i, char in enumerate(reversed(s), start=1):
+                if ''.join(build_str[:-i]) == t and k >= 0:
+                    return "Yes"
+                if ''.join(build_str[:-i]) != t[:-i]:
+                    build_str.pop()
+                    k = k - 1
+                elif ''.join(build_str[:-i]) == t[:-i] and ''.join(build_str[:-i]) != t:
+                    build_str.append(t[-i:])
+                    k = k - len(t[-i:])
+                    print(k, build_str)
+
+       
+            # elif build_str == t:
+            #     print("we're done deleting")
 
 # if t is longer than s, may only need to add chars
 # if s is longer than t, may only need to remove chars
@@ -46,3 +74,4 @@ def appendAndDelete(s, t, k):
     # else:
     #     return "No"
 print(appendAndDelete("ashley", "ash", 2))
+print(appendAndDelete("picard", "pickles", 2))
